@@ -129,4 +129,67 @@ file-7:7 abc\ 1642620879
 file-8:8 abc\ 1642620880
 file-9:9 abc\ 1642620881
 ```
+## more special chars
+
+using a for loop to generate files with special characters in the name (typically you want to avoid filenames like this if possible):
+
+```
+~/projects/learning-regex/ex003_character_sets $  for i in 1 2 3 4 5 6 '[' ']' '\' '!' '-' '/';do echo $i" abc "`date +%s` > special_file$i;sleep 1;done
+-bash: special_file/: No such file or directory
+~/projects/learning-regex/ex003_character_sets $ head special_file*
+==> special_file! <==
+! abc 1642700758
+
+==> special_file- <==
+- abc 1642700759
+
+==> special_file1 <==
+1 abc 1642700749
+
+==> special_file2 <==
+2 abc 1642700750
+
+==> special_file3 <==
+3 abc 1642700751
+
+==> special_file4 <==
+4 abc 1642700752
+
+==> special_file5 <==
+5 abc 1642700753
+
+==> special_file6 <==
+6 abc 1642700754
+
+==> special_file[ <==
+[ abc 1642700755
+
+==> special_file\ <==
+\ abc 1642700757
+
+==> special_file] <==
+] abc 1642700756
+```
+
+now you can use regex for the special characters like `[` and `]` but 
+* they have to be at the front of the list
+* the order is important if you more 
+```
+~/projects/learning-regex/ex003_character_sets $ head special_file[1]
+1 abc 1642700749
+~/projects/learning-regex/ex003_character_sets $ head special_file[[1]
+==> special_file1 <==
+1 abc 1642700749
+
+==> special_file[ <==
+[ abc 1642700755
+~/projects/learning-regex/ex003_character_sets $ head special_file[[]1]
+head: special_file[[]1]: No such file or directory
+~/projects/learning-regex/ex003_character_sets $ head special_file[[1]
+==> special_file1 <==
+1 abc 1642700749
+
+==> special_file[ <==
+[ abc 1642700755
+```
 
