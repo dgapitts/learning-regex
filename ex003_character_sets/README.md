@@ -1,7 +1,9 @@
-### Character sets - use single square brackets
+## Character sets - use single square brackets
 
 > Character sets are like a specialized question mark wildcard. They match exactly one character, but we get to specify the possible matches by providing a list. To create a character set, you use single square brackets containing the list of characters you want to match.
 
+
+### Setup
 
 creating some files
 ```
@@ -25,6 +27,15 @@ file1	file2	file3
 file1	file2	file3
 ~/projects/learning-regex/ex003_character_sets $ ls file*[1-3]
 file1	file11	file12	file13	file2	file3
+```
+
+or you can use `generate.sh`
+
+```
+~/projects/learning-regex/ex003_character_sets $ ./generate.sh
+./generate.sh: line 1: special_file/: No such file or directory
+~/projects/learning-regex/ex003_character_sets $ cat ./generate.sh
+for i in 1 2 3 4 5 6 '[' ']' '\' '!' '-' '/';do echo $i" abc "`date +%s` > special_file$i;sleep 1;done
 ```
 
 ### Escaping and special chars
