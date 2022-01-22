@@ -1,6 +1,70 @@
 ## How locale settings affect search
 
-to be completed
+
+### generate.sh to create files with alphanumeric chars, accentuated chars, punctuation, spaces …
+
+```
+~/projects/learning-regex/ex004-locale-and-search $ cat generate.sh
+time for i in ' ' '\t' '\n' 1 2 3  á  é  í  ó  ú A E I O U a e i o u b c d f D F G H '[' ']' '\' '!' '-' '/' ;do echo $i" abc "`date +%s` >> "file$i.txt";sleep 1;done
+ls -ltr
+~/projects/learning-regex/ex004-locale-and-search $ ./generate.sh
+./generate.sh: line 1: file/.txt: No such file or directory
+
+real	0m35.393s
+user	0m0.090s
+sys	0m0.138s
+...
+-rw-r--r--  1 dave  staff  3572 Jan 21 21:52 README.md
+-rwxr-xr-x  1 dave  staff   180 Jan 22 21:05 generate.sh
+-rw-r--r--  1 dave  staff    16 Jan 22 21:05 file .txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 file\t.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 file\n.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:05 file1.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:05 file2.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:05 file3.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 fileá.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 fileé.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 fileí.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 fileó.txt
+-rw-r--r--  1 dave  staff    18 Jan 22 21:05 fileú.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:05 fileA.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:05 fileE.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:05 fileI.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:05 fileO.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:06 fileU.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 fileb.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 filec.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:06 filed.txt
+-rw-r--r--  1 dave  staff    34 Jan 22 21:06 filef.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 fileG.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 fileH.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 file[.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 file].txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 file\.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 file!.txt
+-rw-r--r--  1 dave  staff    17 Jan 22 21:06 file-.txt
+```
+
+now filtering by alphanumeric chars, accentuated chars, punctuation, spaces …
+```
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:punct:]].txt
+file!.txt	file-.txt	file[.txt	file\.txt	file].txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:space:]].txt
+file .txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:digit:]].txt
+file1.txt	file2.txt	file3.txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:alpha:]].txt
+fileA.txt	fileG.txt	fileI.txt	fileU.txt	filec.txt	filef.txt	fileé.txt	fileó.txt
+fileE.txt	fileH.txt	fileO.txt	fileb.txt	filed.txt	fileá.txt	fileí.txt	fileú.txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:upper:]].txt
+fileA.txt	fileE.txt	fileG.txt	fileH.txt	fileI.txt	fileO.txt	fileU.txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:lower:]].txt
+fileb.txt	filec.txt	filed.txt	filef.txt	fileá.txt	fileé.txt	fileí.txt	fileó.txt	fileú.txt
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[:alnum:]].txt
+file1.txt	file3.txt	fileE.txt	fileH.txt	fileO.txt	fileb.txt	filed.txt	fileá.txt	fileí.txt	fileú.txt
+file2.txt	fileA.txt	fileG.txt	fileI.txt	fileU.txt	filec.txt	filef.txt	fileé.txt	fileó.txt
+```
+
 
 ### Surprise issue with bash case mixing upper and lower case in file operations
 
