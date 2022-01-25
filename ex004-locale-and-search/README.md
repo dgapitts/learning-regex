@@ -159,3 +159,56 @@ total 80
 a abc 1642797580
 a abc 1642797694
 ```
+
+### More MacOSX issues
+
+This looks buggy:
+```
+~/projects/learning-regex/ex004-locale-and-search $ ls file*.txt|sort
+file .txt
+file!.txt
+file-.txt
+file1.txt
+file2.txt
+file3.txt
+fileA.txt
+fileE.txt
+fileG.txt
+fileH.txt
+fileI.txt
+fileO.txt
+fileU.txt
+file[.txt
+file\.txt
+file\n.txt
+file\t.txt
+file].txt
+fileb.txt
+filec.txt
+filed.txt
+filef.txt
+fileá.txt
+fileé.txt
+fileí.txt
+fileó.txt
+fileú.txt
+~/projects/learning-regex/ex004-locale-and-search $ cat filee.txt
+E abc 1642881952
+e abc 1642881957
+~/projects/learning-regex/ex004-locale-and-search $ cat fileé.txt
+é abc 1642881947
+~/projects/learning-regex/ex004-locale-and-search $ cat fileE.txt
+E abc 1642881952
+e abc 1642881957
+~/projects/learning-regex/ex004-locale-and-search $ ls file[[=e=]].txt
+ls: file[[=e=]].txt: No such file or directory
+```
+
+and https://www.cyberciti.biz/faq/mac-osx-find-tell-operating-system-version-from-bash-prompt/ :
+
+```
+~/projects/learning-regex/ex004-locale-and-search $ sw_vers
+ProductName:	Mac OS X
+ProductVersion:	10.14.6
+BuildVersion:	18G5033
+```
