@@ -212,3 +212,98 @@ ProductName:	Mac OS X
 ProductVersion:	10.14.6
 BuildVersion:	18G5033
 ```
+
+### Results from centos7
+
+same build script
+
+```
+[root@centos7k3s ex004-locale-and-search]# cat generate.sh
+time for i in ' ' '\t' '\n' 1 2 3  á  é  í  ó  ú A E I O U a e i o u b c d f D F G H '[' ']' '\' '!' '-' '/' ;do echo $i" abc "`date +%s` >> "file$i.txt";sleep 1;done
+ls -ltr
+```
+
+but still not working as expected with accented characters (different from macosx issues)
+```
+[root@centos7k3s ex004-locale-and-search]# time ./generate.sh
+./generate.sh: line 1: file/.txt: No such file or directory
+
+real	0m35.282s
+user	0m0.044s
+sys	0m0.099s
+total 148
+-rwxr-xr-x. 1 root root  180 Jan 26 22:34 generate.sh
+-rw-r--r--. 1 root root 7957 Jan 26 22:34 README.md
+-rw-r--r--. 1 root root   16 Jan 26 22:34 file .txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file\t.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file\n.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:34 file1.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:34 file2.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:34 file3.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file??.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file??.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file??.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file??.txt
+-rw-r--r--. 1 root root   18 Jan 26 22:34 file??.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileA.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileE.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileI.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileO.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileU.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filea.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filee.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filei.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileo.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileu.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileb.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filec.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filed.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 filef.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileD.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileF.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileG.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 fileH.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 file[.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 file].txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 file\.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 file!.txt
+-rw-r--r--. 1 root root   17 Jan 26 22:35 file-.txt
+
+real	0m35.290s
+user	0m0.047s
+sys	0m0.104s
+```
+
+locale settings
+```
+[root@centos7k3s ex004-locale-and-search]# locale
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+LANG=en_US.UTF-8
+LC_CTYPE=UTF-8
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_ADDRESS="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_ALL=
+```
+linux and bash version details
+
+```
+[root@centos7k3s ex004-locale-and-search]# uname -a
+Linux centos7k3s 3.10.0-862.2.3.el7.x86_64 #1 SMP Wed May 9 18:05:47 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+[root@centos7k3s ex004-locale-and-search]# bash --version
+GNU bash, version 4.2.46(2)-release (x86_64-redhat-linux-gnu)
+Copyright (C) 2011 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+```
